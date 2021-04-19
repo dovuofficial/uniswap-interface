@@ -179,7 +179,7 @@ export default function Earn() {
       </AutoColumn>
 
       <div style={{position: 'fixed', left: '0', bottom: '16px', paddingLeft: '16px', fontSize: '10px', color: '0x888'}}>
-        View source code on <FooterLink href="https://github.com/tapmydata/tap-liquidity-mining-ui" target="_blank">GitHub</FooterLink>. Based on <FooterLink href="https://github.com/Uniswap/uniswap-interface" target="_blank">uniswap-interface</FooterLink>.
+        View source code on <FooterLink href="https://github.com/tapmydata/uniswap-interface" target="_blank">GitHub</FooterLink>. Based on <FooterLink href="https://github.com/Uniswap/uniswap-interface" target="_blank">uniswap-interface</FooterLink>.
       </div>
     </PageWrapper>
   )
