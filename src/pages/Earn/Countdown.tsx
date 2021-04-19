@@ -55,13 +55,15 @@ export function Countdown({ exactEnd }: { exactEnd?: Date }) {
 
   return (
     <TYPE.black fontWeight={400}>
-      {message}{' '}
-      {Number.isFinite(timeRemaining) && (
-        <code>
+      {exactEnd && Number.isFinite(timeRemaining) && (
+        <div>
+          <span>{message}{' '}</span>
+          <code>
           {`${days}:${hours.toString().padStart(2, '0')}:${minutes
             .toString()
             .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`}
-        </code>
+          </code>
+        </div>
       )}
     </TYPE.black>
   )

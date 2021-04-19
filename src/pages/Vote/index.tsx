@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { AutoColumn } from '../../components/Column'
 import styled from 'styled-components'
 import { TYPE, ExternalLink } from '../../theme'
@@ -19,8 +19,6 @@ import { JSBI, TokenAmount, ChainId } from '@uniswap/sdk'
 import { shortenAddress, getEtherscanLink } from '../../utils'
 import Loader from '../../components/Loader'
 import FormattedCurrencyAmount from '../../components/FormattedCurrencyAmount'
-import { useModalOpen, useToggleDelegateModal } from '../../state/application/hooks'
-import { ApplicationModal } from '../../state/application/actions'
 
 const PageWrapper = styled(AutoColumn)``
 
@@ -104,10 +102,7 @@ const EmptyProposals = styled.div`
 
 export default function Vote() {
   const { account, chainId } = useActiveWeb3React()
-
-  // toggle for showing delegation modal
-  const showDelegateModal = useModalOpen(ApplicationModal.DELEGATE)
-  const toggleDelegateModal = useToggleDelegateModal()
+  const [showModal, setShowModal] = useState<boolean>(false)
 
   // get data to list all proposals
   const allProposals: ProposalData[] = useAllProposalData()
@@ -125,8 +120,8 @@ export default function Vote() {
   return (
     <PageWrapper gap="lg" justify="center">
       <DelegateModal
-        isOpen={showDelegateModal}
-        onDismiss={toggleDelegateModal}
+        isOpen={showModal}
+        onDismiss={() => setShowModal(false)}
         title={showUnlockVoting ? 'Unlock Votes' : 'Update Delegation'}
       />
       <TopSection gap="md">
@@ -136,11 +131,11 @@ export default function Vote() {
           <CardSection>
             <AutoColumn gap="md">
               <RowBetween>
-                <TYPE.white fontWeight={600}>Uniswap Governance</TYPE.white>
+                <TYPE.white fontWeight={600}>Tapmydata Governance</TYPE.white>
               </RowBetween>
               <RowBetween>
                 <TYPE.white fontSize={14}>
-                  UNI tokens represent voting shares in Uniswap governance. You can vote on each proposal yourself or
+                  UNI tokens represent voting shares in Tapmydata governance. You can vote on each proposal yourself or
                   delegate your votes to a third party.
                 </TYPE.white>
               </RowBetween>
@@ -149,7 +144,7 @@ export default function Vote() {
                 href="https://uniswap.org/blog/uni"
                 target="_blank"
               >
-                <TYPE.white fontSize={14}>Read more about Uniswap governance</TYPE.white>
+                <TYPE.white fontSize={14}>Read more about Tapmydata governance</TYPE.white>
               </ExternalLink>
             </AutoColumn>
           </CardSection>
@@ -166,7 +161,7 @@ export default function Vote() {
               style={{ width: 'fit-content' }}
               padding="8px"
               borderRadius="8px"
-              onClick={toggleDelegateModal}
+              onClick={() => setShowModal(true)}
             >
               Unlock Voting
             </ButtonPrimary>
@@ -200,7 +195,7 @@ export default function Vote() {
                   >
                     {userDelegatee === account ? 'Self' : shortenAddress(userDelegatee)}
                   </StyledExternalLink>
-                  <TextButton onClick={toggleDelegateModal} style={{ marginLeft: '4px' }}>
+                  <TextButton onClick={() => setShowModal(true)} style={{ marginLeft: '4px' }}>
                     (edit)
                   </TextButton>
                 </AddressButton>

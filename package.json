@@ -1,6 +1,6 @@
 {
-  "name": "@uniswap/interface",
-  "description": "Uniswap Interface",
+  "name": "tap-liquidity-mining-ui",
+  "description": "TAP Liquidity Mining UI",
   "homepage": ".",
   "private": true,
   "devDependencies": {
@@ -31,7 +31,7 @@
     "@uniswap/liquidity-staker": "^1.0.2",
     "@uniswap/merkle-distributor": "1.0.1",
     "@uniswap/sdk": "3.0.3",
-    "@uniswap/token-lists": "^1.0.0-beta.19",
+    "@uniswap/token-lists": "^1.0.0-beta.17",
     "@uniswap/v2-core": "1.0.0",
     "@uniswap/v2-periphery": "^1.1.0-beta.0",
     "@web3-react/core": "^6.0.9",
@@ -69,7 +69,6 @@
     "react-device-detect": "^1.6.2",
     "react-dom": "^16.13.1",
     "react-feather": "^2.0.8",
-    "react-ga": "^2.5.7",
     "react-i18next": "^10.7.0",
     "react-markdown": "^4.3.1",
     "react-popper": "^2.2.3",
@@ -82,21 +81,18 @@
     "react-window": "^1.8.5",
     "rebass": "^4.0.7",
     "redux-localstorage-simple": "^2.3.1",
-    "serve": "^11.3.2",
+    "serve": "^11.3.0",
     "start-server-and-test": "^1.11.0",
     "styled-components": "^4.2.0",
     "typescript": "^3.8.3",
     "use-count-up": "^2.2.5",
-    "wcag-contrast": "^3.0.0",
-    "workbox-core": "^6.1.0",
-    "workbox-expiration": "^6.1.0",
-    "workbox-precaching": "^6.1.0",
-    "workbox-routing": "^6.1.0",
-    "workbox-strategies": "^6.1.0"
+    "wcag-contrast": "^3.0.0"
+  },
+  "resolutions": {
+    "@walletconnect/web3-provider": "1.1.1-alpha.0"
   },
   "scripts": {
     "start": "react-scripts start",
-    "start:service-worker": "yarn build && yarn serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
@@ -122,6 +118,8 @@
   },
   "license": "GPL-3.0-or-later",
   "dependencies": {
-    "@uniswap/default-token-list": "^2.0.0"
+    "got": "^11.8.2",
+    "graphql": "^15.5.0",
+    "graphql-request": "^3.4.0"
   }
 }

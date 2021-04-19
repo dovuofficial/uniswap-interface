@@ -3,9 +3,11 @@ import {
   BigintIsh,
   Currency,
   CurrencyAmount,
+  currencyEquals,
   ETHER,
   JSBI,
   Pair,
+  Percent,
   Route,
   Token,
   TokenAmount,
@@ -77,7 +79,7 @@ export function useUserHasLiquidityInAllTokens(): boolean | undefined {
 
   const v1ExchangeLiquidityTokens = useMemo(
     () =>
-      chainId ? Object.keys(exchanges).map(address => new Token(chainId, address, 18, 'UNI-V1', 'Uniswap V1')) : [],
+      chainId ? Object.keys(exchanges).map(address => new Token(chainId, address, 18, 'UNI-V1', 'Uni V1')) : [],
     [chainId, exchanges]
   )
 
@@ -154,4 +156,32 @@ export function useV1TradeExchangeAddress(trade: Trade | undefined): string | un
       : undefined
   }, [trade])
   return useV1ExchangeAddress(tokenAddress)
+}
+
+const ZERO_PERCENT = new Percent('0')
+const ONE_HUNDRED_PERCENT = new Percent('1')
+
+// returns whether tradeB is better than tradeA by at least a threshold percentage amount
+export function isTradeBetter(
+  tradeA: Trade | undefined,
+  tradeB: Trade | undefined,
+  minimumDelta: Percent = ZERO_PERCENT
+): boolean | undefined {
+  if (tradeA && !tradeB) return false
+  if (tradeB && !tradeA) return true
+  if (!tradeA || !tradeB) return undefined
+
+  if (
+    tradeA.tradeType !== tradeB.tradeType ||
+    !currencyEquals(tradeA.inputAmount.currency, tradeB.inputAmount.currency) ||
+    !currencyEquals(tradeB.outputAmount.currency, tradeB.outputAmount.currency)
+  ) {
+    throw new Error('Trades are not comparable')
+  }
+
+  if (minimumDelta.equalTo(ZERO_PERCENT)) {
+    return tradeA.executionPrice.lessThan(tradeB.executionPrice)
+  } else {
+    return tradeA.executionPrice.raw.multiply(minimumDelta.add(ONE_HUNDRED_PERCENT)).lessThan(tradeB.executionPrice)
+  }
 }

@@ -1,15 +1,14 @@
 import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WETH, Pair } from '@uniswap/sdk'
 import { useMemo } from 'react'
-import { DAI, UNI, USDC, USDT, WBTC } from '../../constants'
+import { DAI, TAP, UNI, USDC, USDT, WBTC } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { useActiveWeb3React } from '../../hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData } from '../multicall/hooks'
 import { tryParseAmount } from '../swap/hooks'
-import useCurrentBlockTimestamp from 'hooks/useCurrentBlockTimestamp'
 
-export const STAKING_GENESIS = 1600387200
+export const STAKING_GENESIS = 1619827200
 
-export const REWARDS_DURATION_DAYS = 60
+export const REWARDS_DURATION_DAYS = 90
 
 // TODO add staking rewards addresses here
 export const STAKING_REWARDS_INFO: {
@@ -20,22 +19,34 @@ export const STAKING_REWARDS_INFO: {
 } = {
   [ChainId.MAINNET]: [
     {
-      tokens: [WETH[ChainId.MAINNET], DAI],
-      stakingRewardAddress: '0xa1484C3aa22a66C62b77E0AE78E15258bd0cB711'
+      tokens: [TAP[ChainId.MAINNET], WETH[ChainId.MAINNET]],
+      stakingRewardAddress: '0x29Da98679d401ED8FC7474D192c04DB3e3c49695'
     },
     {
-      tokens: [WETH[ChainId.MAINNET], USDC],
-      stakingRewardAddress: '0x7FBa4B8Dc5E7616e59622806932DBea72537A56b'
+      tokens: [TAP[ChainId.MAINNET], USDT[ChainId.MAINNET]],
+      stakingRewardAddress: '0x60b07E2432e4cD572C157C121a810BfcA517C79f'
+    }
+  ],
+  [ChainId.KOVAN]: [
+    {
+      tokens: [TAP[ChainId.KOVAN], WETH[ChainId.KOVAN]],
+      stakingRewardAddress: '0xb628bce3bca899a42da91b3b160137a286ce054f'
     },
     {
-      tokens: [WETH[ChainId.MAINNET], USDT],
-      stakingRewardAddress: '0x6C3e4cb2E96B01F4b866965A91ed4437839A121a'
-    },
-    {
-      tokens: [WETH[ChainId.MAINNET], WBTC],
-      stakingRewardAddress: '0xCA35e32e7926b96A9988f61d510E038108d8068e'
+      tokens: [TAP[ChainId.KOVAN], USDT[ChainId.KOVAN]],
+      stakingRewardAddress: '0x6E65261CE50480CC5455A6eA05169C18fC14eEF8'
     }
   ]
+  // [ChainId.ROPSTEN]: [
+  //   {
+  //     tokens: [TAP, WETH[ChainId.ROPSTEN]],
+  //     stakingRewardAddress: '0x6147e04E4F5c71bf32D1E9cf310eE816F1952363'
+  //   },
+  //   {
+  //     tokens: [TAP, USDT],
+  //     stakingRewardAddress: '0x8d4f51555DA88A549598Fe258dD9208f64992FCD'
+  //   }
+  // ]
 }
 
 export interface StakingInfo {
@@ -56,8 +67,6 @@ export interface StakingInfo {
   rewardRate: TokenAmount
   // when the period ends
   periodFinish: Date | undefined
-  // if pool is active
-  active: boolean
   // calculates a hypothetical amount of token distributed to the active account per second.
   getHypotheticalRewardRate: (
     stakedAmount: TokenAmount,
@@ -68,10 +77,7 @@ export interface StakingInfo {
 
 // gets the staking info from the network for the active chain id
 export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
-  const { chainId, account } = useActiveWeb3React()
-
-  // detect if staking is ended
-  const currentBlockTimestamp = useCurrentBlockTimestamp()
+  let { chainId, account } = useActiveWeb3React()
 
   const info = useMemo(
     () =>
@@ -176,12 +182,7 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
 
         const individualRewardRate = getHypotheticalRewardRate(stakedAmount, totalStakedAmount, totalRewardRate)
 
-        const periodFinishSeconds = periodFinishState.result?.[0]?.toNumber()
-        const periodFinishMs = periodFinishSeconds * 1000
-
-        // compare period end timestamp vs current block timestamp (in seconds)
-        const active =
-          periodFinishSeconds && currentBlockTimestamp ? periodFinishSeconds > currentBlockTimestamp.toNumber() : true
+        const periodFinishMs = periodFinishState.result?.[0]?.mul(1000)?.toNumber()
 
         memo.push({
           stakingRewardAddress: rewardsAddress,
@@ -192,24 +193,12 @@ export function useStakingInfo(pairToFilterBy?: Pair | null): StakingInfo[] {
           totalRewardRate: totalRewardRate,
           stakedAmount: stakedAmount,
           totalStakedAmount: totalStakedAmount,
-          getHypotheticalRewardRate,
-          active
+          getHypotheticalRewardRate
         })
       }
       return memo
     }, [])
-  }, [
-    balances,
-    chainId,
-    currentBlockTimestamp,
-    earnedAmounts,
-    info,
-    periodFinishes,
-    rewardRates,
-    rewardsAddresses,
-    totalSupplies,
-    uni
-  ])
+  }, [balances, chainId, earnedAmounts, info, periodFinishes, rewardRates, rewardsAddresses, totalSupplies, uni])
 }
 
 export function useTotalUniEarned(): TokenAmount | undefined {

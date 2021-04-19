@@ -1,9 +1,7 @@
 import { diffTokenLists, TokenList } from '@uniswap/token-lists'
 import React, { useCallback, useMemo } from 'react'
-import ReactGA from 'react-ga'
 import { useDispatch } from 'react-redux'
 import { Text } from 'rebass'
-import styled from 'styled-components'
 import { AppDispatch } from '../../state'
 import { useRemovePopup } from '../../state/application/hooks'
 import { acceptListUpdate } from '../../state/lists/actions'
@@ -12,11 +10,6 @@ import listVersionLabel from '../../utils/listVersionLabel'
 import { ButtonSecondary } from '../Button'
 import { AutoColumn } from '../Column'
 import { AutoRow } from '../Row'
-
-export const ChangesList = styled.ul`
-  max-height: 400px;
-  overflow: auto;
-`
 
 export default function ListUpdatePopup({
   popKey,
@@ -37,11 +30,6 @@ export default function ListUpdatePopup({
 
   const handleAcceptUpdate = useCallback(() => {
     if (auto) return
-    ReactGA.event({
-      category: 'Lists',
-      action: 'Update List from Popup',
-      label: listUrl
-    })
     dispatch(acceptListUpdate(listUrl))
     removeThisPopup()
   }, [auto, dispatch, listUrl, removeThisPopup])
@@ -70,7 +58,7 @@ export default function ListUpdatePopup({
                 An update is available for the token list &quot;{oldList.name}&quot; (
                 {listVersionLabel(oldList.version)} to {listVersionLabel(newList.version)}).
               </Text>
-              <ChangesList>
+              <ul>
                 {tokensAdded.length > 0 ? (
                   <li>
                     {tokensAdded.map((token, i) => (
@@ -94,7 +82,7 @@ export default function ListUpdatePopup({
                   </li>
                 ) : null}
                 {numTokensChanged > 0 ? <li>{numTokensChanged} tokens updated</li> : null}
-              </ChangesList>
+              </ul>
             </div>
             <AutoRow>
               <div style={{ flexGrow: 1, marginRight: 12 }}>
