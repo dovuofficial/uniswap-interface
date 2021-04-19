@@ -115,13 +115,7 @@ export default function Modal({
       {fadeTransition.map(
         ({ item, key, props }) =>
           item && (
-            <StyledDialogOverlay
-              key={key}
-              style={props}
-              onDismiss={onDismiss}
-              initialFocusRef={initialFocusRef}
-              unstable_lockFocusAcrossFrames={false}
-            >
+            <StyledDialogOverlay key={key} style={props} onDismiss={onDismiss} initialFocusRef={initialFocusRef}>
               <StyledDialogContent
                 {...(isMobile
                   ? {

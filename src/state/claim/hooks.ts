@@ -29,39 +29,24 @@ function fetchClaim(account: string, chainId: ChainId): Promise<UserClaimData | 
 
   return (CLAIM_PROMISES[key] =
     CLAIM_PROMISES[key] ??
-    fetch('https://merkle-drop-1.uniswap.workers.dev/', {
-      body: JSON.stringify({ chainId, address: formatted }),
-      headers: {
-        'Content-Type': 'application/json',
-        'Referrer-Policy': 'no-referrer'
-      },
-      method: 'POST'
-    })
-      .then(res => (res.ok ? res.json() : console.log(`No claim for account ${formatted} on chain ID ${chainId}`)))
-      .catch(error => console.error('Failed to get claim data', error)))
+    fetch(`https://gentle-frost-9e74.uniswap.workers.dev/${chainId}/${formatted}`)
+      .then(res => {
+        if (res.status === 200) {
+          return res.json()
+        } else {
+          console.debug(`No claim for account ${formatted} on chain ID ${chainId}`)
+          return null
+        }
+      })
+      .catch(error => {
+        console.error('Failed to get claim data', error)
+      }))
 }
 
 // parse distributorContract blob and detect if user has claim data
 // null means we know it does not
 export function useUserClaimData(account: string | null | undefined): UserClaimData | null | undefined {
-  const { chainId } = useActiveWeb3React()
-
-  const key = `${chainId}:${account}`
-  const [claimInfo, setClaimInfo] = useState<{ [key: string]: UserClaimData | null }>({})
-
-  useEffect(() => {
-    if (!account || !chainId) return
-    fetchClaim(account, chainId).then(accountClaimInfo =>
-      setClaimInfo(claimInfo => {
-        return {
-          ...claimInfo,
-          [key]: accountClaimInfo
-        }
-      })
-    )
-  }, [account, chainId, key])
-
-  return account && chainId ? claimInfo[key] : undefined
+  return undefined
 }
 
 // check if user is in blob and has not yet claimed UNI
@@ -110,7 +95,7 @@ export function useClaimCallback(
         .claim(...args, { value: null, gasLimit: calculateGasMargin(estimatedGasLimit) })
         .then((response: TransactionResponse) => {
           addTransaction(response, {
-            summary: `Claimed ${unClaimedAmount?.toSignificant(4)} UNI`,
+            summary: `Claimed ${unClaimedAmount?.toSignificant(4)} TAP`,
             claim: { recipient: account }
           })
           return response.hash

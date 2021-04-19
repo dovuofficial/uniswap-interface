@@ -12,7 +12,7 @@ import { TYPE } from '../../theme'
 
 import { RowBetween } from '../../components/Row'
 import { CardSection, DataCard, CardNoise, CardBGImage } from '../../components/earn/styled'
-import { ButtonPrimary, ButtonEmpty } from '../../components/Button'
+import { ButtonPrimary, ButtonEmpty, ButtonSecondary } from '../../components/Button'
 import StakingModal from '../../components/earn/StakingModal'
 import { useStakingInfo } from '../../state/stake/hooks'
 import UnstakingModal from '../../components/earn/UnstakingModal'
@@ -28,7 +28,7 @@ import { useTotalSupply } from '../../data/TotalSupply'
 import { usePair } from '../../data/Reserves'
 import usePrevious from '../../hooks/usePrevious'
 import useUSDCPrice from '../../utils/useUSDCPrice'
-import { BIG_INT_ZERO, BIG_INT_SECONDS_IN_WEEK } from '../../constants'
+import { BIG_INT_ZERO } from '../../constants'
 
 const PageWrapper = styled(AutoColumn)`
   max-width: 640px;
@@ -116,6 +116,7 @@ export default function Manage({
 
   const token = currencyA === ETHER ? tokenB : tokenA
   const WETH = currencyA === ETHER ? tokenA : tokenB
+  const USDT = currencyB?.symbol === 'USDT' ? tokenB : undefined
   const backgroundColor = useColor(token)
 
   // get WETH value of staked LP tokens
@@ -140,8 +141,21 @@ export default function Manage({
 
   // get the USD value of staked WETH
   const USDPrice = useUSDCPrice(WETH)
-  const valueOfTotalStakedAmountInUSDC =
+  let valueOfTotalStakedAmountInUSDC =
     valueOfTotalStakedAmountInWETH && USDPrice?.quote(valueOfTotalStakedAmountInWETH)
+
+  if (totalSupplyOfStakingToken && stakingTokenPair && stakingInfo && USDT) {
+    valueOfTotalStakedAmountInUSDC = new TokenAmount(
+        USDT,
+        JSBI.divide(
+            JSBI.multiply(
+                JSBI.multiply(stakingInfo.totalStakedAmount.raw, stakingTokenPair.reserve1.raw),
+                JSBI.BigInt(2) // this is b/c the value of LP shares are ~double the value of the WETH they entitle owner to
+            ),
+            totalSupplyOfStakingToken.raw
+        )
+    )
+  }
 
   const toggleWalletModal = useWalletModalToggle()
 
@@ -166,43 +180,41 @@ export default function Manage({
         <PoolData>
           <AutoColumn gap="sm">
             <TYPE.body style={{ margin: 0 }}>Total deposits</TYPE.body>
-            <TYPE.body fontSize={24} fontWeight={500}>
-              {valueOfTotalStakedAmountInUSDC
-                ? `$${valueOfTotalStakedAmountInUSDC.toFixed(0, { groupSeparator: ',' })}`
-                : `${valueOfTotalStakedAmountInWETH?.toSignificant(4, { groupSeparator: ',' }) ?? '-'} ETH`}
+            <TYPE.body fontSize={20} fontWeight={500}>
+            {stakingTokenPair
+              ? stakingInfo.totalStakedAmount.toFixed(2, { groupSeparator: ',' }) + ' ' + stakingTokenPair.liquidityToken.symbol + ' ' +currencyA?.symbol + '-' + currencyB?.symbol
+              : 'Loading...'
+            }
             </TYPE.body>
           </AutoColumn>
         </PoolData>
         <PoolData>
           <AutoColumn gap="sm">
             <TYPE.body style={{ margin: 0 }}>Pool Rate</TYPE.body>
-            <TYPE.body fontSize={24} fontWeight={500}>
-              {stakingInfo?.active
-                ? stakingInfo?.totalRewardRate
-                    ?.multiply(BIG_INT_SECONDS_IN_WEEK)
-                    ?.toFixed(0, { groupSeparator: ',' }) ?? '-'
-                : '0'}
-              {' UNI / week'}
+            <TYPE.body fontSize={20} fontWeight={500}>
+              {stakingInfo?.totalRewardRate
+                ?.multiply((60 * 60 * 24 * 7).toString())
+                ?.toFixed(0, { groupSeparator: ',' }) ?? '-'}
+              {' TAP / week'}
             </TYPE.body>
           </AutoColumn>
         </PoolData>
       </DataRow>
 
-      {showAddLiquidityButton && (
+      {true && (
         <VoteCard>
-          <CardBGImage />
-          <CardNoise />
           <CardSection>
             <AutoColumn gap="md">
               <RowBetween>
-                <TYPE.white fontWeight={600}>Step 1. Get UNI-V2 Liquidity tokens</TYPE.white>
+                <TYPE.white fontWeight={600}>Get UNI-V2 Liquidity tokens</TYPE.white>
               </RowBetween>
               <RowBetween style={{ marginBottom: '1rem' }}>
                 <TYPE.white fontSize={14}>
                   {`UNI-V2 LP tokens are required. Once you've added liquidity to the ${currencyA?.symbol}-${currencyB?.symbol} pool you can stake your liquidity tokens on this page.`}
                 </TYPE.white>
               </RowBetween>
-              <ButtonPrimary
+              {currencyA?.symbol && currencyB?.symbol && (
+                <ButtonPrimary
                 padding="8px"
                 borderRadius="8px"
                 width={'fit-content'}
@@ -211,10 +223,9 @@ export default function Manage({
               >
                 {`Add ${currencyA?.symbol}-${currencyB?.symbol} liquidity`}
               </ButtonPrimary>
+              )}
             </AutoColumn>
           </CardSection>
-          <CardBGImage />
-          <CardNoise />
         </VoteCard>
       )}
 
@@ -243,8 +254,6 @@ export default function Manage({
         <BottomSection gap="lg" justify="center">
           <StyledDataCard disabled={disableTop} bgColor={backgroundColor} showBackground={!showAddLiquidityButton}>
             <CardSection>
-              <CardBGImage desaturate />
-              <CardNoise />
               <AutoColumn gap="md">
                 <RowBetween>
                   <TYPE.white fontWeight={600}>Your liquidity deposits</TYPE.white>
@@ -261,22 +270,20 @@ export default function Manage({
             </CardSection>
           </StyledDataCard>
           <StyledBottomCard dim={stakingInfo?.stakedAmount?.equalTo(JSBI.BigInt(0))}>
-            <CardBGImage desaturate />
-            <CardNoise />
             <AutoColumn gap="sm">
               <RowBetween>
                 <div>
-                  <TYPE.black>Your unclaimed UNI</TYPE.black>
+                  <TYPE.black>Your unclaimed TAP</TYPE.black>
                 </div>
                 {stakingInfo?.earnedAmount && JSBI.notEqual(BIG_INT_ZERO, stakingInfo?.earnedAmount?.raw) && (
-                  <ButtonEmpty
+                  <ButtonPrimary
                     padding="8px"
                     borderRadius="8px"
                     width="fit-content"
                     onClick={() => setShowClaimRewardModal(true)}
                   >
                     Claim
-                  </ButtonEmpty>
+                  </ButtonPrimary>
                 )}
               </RowBetween>
               <RowBetween style={{ alignItems: 'baseline' }}>
@@ -295,12 +302,10 @@ export default function Manage({
                   <span role="img" aria-label="wizard-icon" style={{ marginRight: '8px ' }}>
                     ⚡
                   </span>
-                  {stakingInfo?.active
-                    ? stakingInfo?.rewardRate
-                        ?.multiply(BIG_INT_SECONDS_IN_WEEK)
-                        ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'
-                    : '0'}
-                  {' UNI / week'}
+                  {stakingInfo?.rewardRate
+                    ?.multiply((60 * 60 * 24 * 7).toString())
+                    ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}
+                  {' TAP / week'}
                 </TYPE.black>
               </RowBetween>
             </AutoColumn>
@@ -310,32 +315,30 @@ export default function Manage({
           <span role="img" aria-label="wizard-icon" style={{ marginRight: '8px' }}>
             ⭐️
           </span>
-          When you withdraw, the contract will automagically claim UNI on your behalf!
+          When you withdraw, the contract will automatically claim TAP on your behalf!
         </TYPE.main>
 
         {!showAddLiquidityButton && (
           <DataRow style={{ marginBottom: '1rem' }}>
-            {stakingInfo && stakingInfo.active && (
-              <ButtonPrimary padding="8px" borderRadius="8px" width="160px" onClick={handleDepositClick}>
-                {stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0)) ? 'Deposit' : 'Deposit UNI-V2 LP Tokens'}
-              </ButtonPrimary>
-            )}
+            <ButtonPrimary padding="8px" borderRadius="8px" width="160px" onClick={handleDepositClick}>
+              {stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0)) ? 'Deposit' : 'Deposit UNI-V2 LP Tokens'}
+            </ButtonPrimary>
 
             {stakingInfo?.stakedAmount?.greaterThan(JSBI.BigInt(0)) && (
               <>
-                <ButtonPrimary
+                <ButtonSecondary
                   padding="8px"
                   borderRadius="8px"
                   width="160px"
                   onClick={() => setShowUnstakingModal(true)}
                 >
                   Withdraw
-                </ButtonPrimary>
+                </ButtonSecondary>
               </>
             )}
           </DataRow>
         )}
-        {!userLiquidityUnstaked ? null : userLiquidityUnstaked.equalTo('0') ? null : !stakingInfo?.active ? null : (
+        {!userLiquidityUnstaked ? null : userLiquidityUnstaked.equalTo('0') ? null : (
           <TYPE.main>{userLiquidityUnstaked.toSignificant(6)} UNI-V2 LP tokens available</TYPE.main>
         )}
       </PositionInfo>

@@ -67,7 +67,7 @@ export default function UniBalanceContent({ setShowUniBalanceModal }: { setShowU
         <CardNoise />
         <CardSection gap="md">
           <RowBetween>
-            <TYPE.white color="white">Your UNI Breakdown</TYPE.white>
+            <TYPE.white color="white">Your TAP Breakdown</TYPE.white>
             <StyledClose stroke="white" onClick={() => setShowUniBalanceModal(false)} />
           </RowBetween>
         </CardSection>
@@ -90,37 +90,32 @@ export default function UniBalanceContent({ setShowUniBalanceModal }: { setShowU
                   <TYPE.white color="white">Unclaimed:</TYPE.white>
                   <TYPE.white color="white">
                     {uniToClaim?.toFixed(4, { groupSeparator: ',' })}{' '}
-                    {uniToClaim && uniToClaim.greaterThan('0') && (
-                      <StyledInternalLink onClick={() => setShowUniBalanceModal(false)} to="/uni">
-                        (claim)
-                      </StyledInternalLink>
-                    )}
                   </TYPE.white>
                 </RowBetween>
               </AutoColumn>
             </CardSection>
-            <Break />
+            {/*<Break />*/}
           </>
         )}
-        <CardSection gap="sm">
-          <AutoColumn gap="md">
-            <RowBetween>
-              <TYPE.white color="white">UNI price:</TYPE.white>
-              <TYPE.white color="white">${uniPrice?.toFixed(2) ?? '-'}</TYPE.white>
-            </RowBetween>
-            <RowBetween>
-              <TYPE.white color="white">UNI in circulation:</TYPE.white>
-              <TYPE.white color="white">{circulation?.toFixed(0, { groupSeparator: ',' })}</TYPE.white>
-            </RowBetween>
-            <RowBetween>
-              <TYPE.white color="white">Total Supply</TYPE.white>
-              <TYPE.white color="white">{totalSupply?.toFixed(0, { groupSeparator: ',' })}</TYPE.white>
-            </RowBetween>
-            {uni && uni.chainId === ChainId.MAINNET ? (
-              <ExternalLink href={`https://uniswap.info/token/${uni.address}`}>View UNI Analytics</ExternalLink>
-            ) : null}
-          </AutoColumn>
-        </CardSection>
+        {/*<CardSection gap="sm">*/}
+        {/*  <AutoColumn gap="md">*/}
+        {/*    <RowBetween>*/}
+        {/*      <TYPE.white color="white">TAP price:</TYPE.white>*/}
+        {/*      <TYPE.white color="white">${uniPrice?.toFixed(2) ?? '-'}</TYPE.white>*/}
+        {/*    </RowBetween>*/}
+        {/*    <RowBetween>*/}
+        {/*      <TYPE.white color="white">TAP in circulation:</TYPE.white>*/}
+        {/*      <TYPE.white color="white">{circulation?.toFixed(0, { groupSeparator: ',' })}</TYPE.white>*/}
+        {/*    </RowBetween>*/}
+        {/*    <RowBetween>*/}
+        {/*      <TYPE.white color="white">Total Supply</TYPE.white>*/}
+        {/*      <TYPE.white color="white">{totalSupply?.toFixed(0, { groupSeparator: ',' })}</TYPE.white>*/}
+        {/*    </RowBetween>*/}
+        {/*    {uni && uni.chainId === ChainId.MAINNET ? (*/}
+        {/*      <ExternalLink href={`https://uniswap.info/token/${uni.address}`}>View TAP Analytics</ExternalLink>*/}
+        {/*    ) : null}*/}
+        {/*  </AutoColumn>*/}
+        {/*</CardSection>*/}
       </ModalUpper>
     </ContentWrapper>
   )

@@ -3,7 +3,6 @@ import { TransactionResponse } from '@ethersproject/providers'
 import { Currency, currencyEquals, ETHER, TokenAmount, WETH } from '@uniswap/sdk'
 import React, { useCallback, useContext, useState } from 'react'
 import { Plus } from 'react-feather'
-import ReactGA from 'react-ga'
 import { RouteComponentProps } from 'react-router-dom'
 import { Text } from 'rebass'
 import { ThemeContext } from 'styled-components'
@@ -38,8 +37,6 @@ import { Dots, Wrapper } from '../Pool/styleds'
 import { ConfirmAddModalBottom } from './ConfirmAddModalBottom'
 import { currencyId } from '../../utils/currencyId'
 import { PoolPriceBar } from './PoolPriceBar'
-import { useIsTransactionUnsupported } from 'hooks/Trades'
-import UnsupportedCurrencyFooter from 'components/swap/UnsupportedCurrencyFooter'
 
 export default function AddLiquidity({
   match: {
@@ -78,7 +75,6 @@ export default function AddLiquidity({
     poolTokenPercentage,
     error
   } = useDerivedMintInfo(currencyA ?? undefined, currencyB ?? undefined)
-
   const { onFieldAInput, onFieldBInput } = useMintActionHandlers(noLiquidity)
 
   const isValid = !error
@@ -194,12 +190,6 @@ export default function AddLiquidity({
           })
 
           setTxHash(response.hash)
-
-          ReactGA.event({
-            category: 'Liquidity',
-            action: 'Add',
-            label: [currencies[Field.CURRENCY_A]?.symbol, currencies[Field.CURRENCY_B]?.symbol].join('/')
-          })
         })
       )
       .catch(error => {
@@ -307,8 +297,6 @@ export default function AddLiquidity({
 
   const isCreate = history.location.pathname.includes('/create')
 
-  const addIsUnsupported = useIsTransactionUnsupported(currencies?.CURRENCY_A, currencies?.CURRENCY_B)
-
   return (
     <>
       <AppBody>
@@ -328,11 +316,10 @@ export default function AddLiquidity({
               />
             )}
             pendingText={pendingText}
-            currencyToAdd={pair?.liquidityToken}
           />
           <AutoColumn gap="20px">
             {noLiquidity ||
-              (isCreate ? (
+              (isCreate && (
                 <ColumnCenter>
                   <BlueCard>
                     <AutoColumn gap="10px">
@@ -344,18 +331,6 @@ export default function AddLiquidity({
                       </TYPE.link>
                       <TYPE.link fontWeight={400} color={'primaryText1'}>
                         Once you are happy with the rate click supply to review.
-                      </TYPE.link>
-                    </AutoColumn>
-                  </BlueCard>
-                </ColumnCenter>
-              ) : (
-                <ColumnCenter>
-                  <BlueCard>
-                    <AutoColumn gap="10px">
-                      <TYPE.link fontWeight={400} color={'primaryText1'}>
-                        <b>Tip:</b> When you add liquidity, you will receive pool tokens representing your position.
-                        These tokens automatically earn fees proportional to your share of the pool, and can be redeemed
-                        at any time.
                       </TYPE.link>
                     </AutoColumn>
                   </BlueCard>
@@ -372,6 +347,7 @@ export default function AddLiquidity({
               currency={currencies[Field.CURRENCY_A]}
               id="add-liquidity-input-tokena"
               showCommonBases
+              disableCurrencySelect={true}
             />
             <ColumnCenter>
               <Plus size="16" color={theme.text2} />
@@ -387,6 +363,7 @@ export default function AddLiquidity({
               currency={currencies[Field.CURRENCY_B]}
               id="add-liquidity-input-tokenb"
               showCommonBases
+              disableCurrencySelect={true}
             />
             {currencies[Field.CURRENCY_A] && currencies[Field.CURRENCY_B] && pairState !== PairState.INVALID && (
               <>
@@ -408,11 +385,7 @@ export default function AddLiquidity({
               </>
             )}
 
-            {addIsUnsupported ? (
-              <ButtonPrimary disabled={true}>
-                <TYPE.main mb="4px">Unsupported Asset</TYPE.main>
-              </ButtonPrimary>
-            ) : !account ? (
+            {!account ? (
               <ButtonLight onClick={toggleWalletModal}>Connect Wallet</ButtonLight>
             ) : (
               <AutoColumn gap={'md'}>
@@ -466,18 +439,12 @@ export default function AddLiquidity({
           </AutoColumn>
         </Wrapper>
       </AppBody>
-      {!addIsUnsupported ? (
-        pair && !noLiquidity && pairState !== PairState.INVALID ? (
-          <AutoColumn style={{ minWidth: '20rem', width: '100%', maxWidth: '400px', marginTop: '1rem' }}>
-            <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
-          </AutoColumn>
-        ) : null
-      ) : (
-        <UnsupportedCurrencyFooter
-          show={addIsUnsupported}
-          currencies={[currencies.CURRENCY_A, currencies.CURRENCY_B]}
-        />
-      )}
+
+      {pair && !noLiquidity && pairState !== PairState.INVALID ? (
+        <AutoColumn style={{ minWidth: '20rem', width: '100%', maxWidth: '400px', marginTop: '1rem' }}>
+          <MinimalPositionCard showUnwrapped={oneCurrencyIsWETH} pair={pair} />
+        </AutoColumn>
+      ) : null}
     </>
   )
 }
