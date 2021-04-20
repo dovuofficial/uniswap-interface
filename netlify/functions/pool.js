@@ -24,12 +24,12 @@ exports.handler = async function(event, context) {
             { 
                 "TAP-ETH": {
                     totalDeposited: Number(pair.pairs[0].reserveUSD),
-                    poolRate: "15555.55",
+                    poolRate: "46666",
                     periodFinish: 1619827200 + 7776000
                 },
                 "TAP-USDT": {
                     totalDeposited:  Number(pair.pairs[1].reserveUSD),
-                    poolRate: "15555.55",
+                    poolRate: "46666",
                     periodFinish: 1619827200 + 7776000
                 }
              }
