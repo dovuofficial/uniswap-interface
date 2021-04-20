@@ -181,7 +181,7 @@ export default function Manage({
           <AutoColumn gap="sm">
             <TYPE.body style={{ margin: 0 }}>Total deposits</TYPE.body>
             <TYPE.body fontSize={20} fontWeight={500}>
-            {stakingTokenPair
+            {stakingTokenPair && stakingInfo
               ? stakingInfo.totalStakedAmount.toFixed(2, { groupSeparator: ',' }) + ' ' + stakingTokenPair.liquidityToken.symbol + ' ' +currencyA?.symbol + '-' + currencyB?.symbol
               : 'Loading...'
             }
