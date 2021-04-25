@@ -7,8 +7,7 @@ import { useTranslation } from 'react-i18next'
 
 import styled from 'styled-components'
 
-import Logo from '../../assets/svg/TMD_GlitchedLogo_Black.png'
-import LogoDark from '../../assets/svg/TMD_GlitchedLogo_White.png'
+import Logo from '../../assets/svg/Dovu_Logo_Blue.png'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { useETHBalances, useAggregateUniBalance } from '../../state/wallet/hooks'
@@ -133,8 +132,7 @@ const UNIAmount = styled(AccountElement)`
   padding: 4px 8px;
   height: 36px;
   font-weight: 500;
-  background-color: ${({ theme }) => theme.bg3};
-  background: linear-gradient(135deg,rgba(0,255,170,1.0) 0%,rgba(0,187,255,1.0) 53%,rgba(69,121,245,1.0) 100%);
+  background-color: #2076ff;
 `
 
 const UNIWrapper = styled.span`
@@ -294,7 +292,7 @@ export default function Header() {
       <HeaderRow>
         <Title href=".">
           <UniIcon>
-            <img width={'150px'} src={isDark ? LogoDark : Logo} alt="logo" />
+            <img width={'150px'} src={Logo} alt="logo" />
           </UniIcon>
         </Title>
         <HeaderLinks>
@@ -334,7 +332,7 @@ export default function Header() {
             <UNIWrapper onClick={toggleClaimModal}>
               <UNIAmount active={!!account && !availableClaim} style={{ pointerEvents: 'auto' }}>
                 <TYPE.white padding="0 2px">
-                  {claimTxn && !claimTxn?.receipt ? <Dots>Claiming TAP</Dots> : 'Claim TAP'}
+                  {claimTxn && !claimTxn?.receipt ? <Dots>Claiming DOV</Dots> : 'Claim DOV'}
                 </TYPE.white>
               </UNIAmount>
               <CardNoise />
@@ -361,7 +359,7 @@ export default function Header() {
                     </TYPE.white>
                   </HideSmall>
                 )}
-                TAP
+                DOV
               </UNIAmount>
               <CardNoise />
             </UNIWrapper>

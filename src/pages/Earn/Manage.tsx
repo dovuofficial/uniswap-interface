@@ -49,11 +49,9 @@ const BottomSection = styled(AutoColumn)`
 `
 
 const StyledDataCard = styled(DataCard)<{ bgColor?: any; showBackground?: any }>`
-  background: radial-gradient(76.02% 75.41% at 1.84% 0%, #1e1a31 0%, #3d51a5 100%);
+  background-color: #2076ff;
   z-index: 2;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  background: ${({ theme, bgColor, showBackground }) =>
-    `radial-gradient(91.85% 100% at 1.84% 0%, ${bgColor} 0%,  ${showBackground ? theme.black : theme.bg5} 100%) `};
 `
 
 const StyledBottomCard = styled(DataCard)<{ dim: any }>`
@@ -67,13 +65,13 @@ const StyledBottomCard = styled(DataCard)<{ dim: any }>`
 
 const PoolData = styled(DataCard)`
   background: none;
-  border: 1px solid ${({ theme }) => theme.bg4};
+  border: 1px solid #2076ff;
   padding: 1rem;
   z-index: 1;
 `
 
 const VoteCard = styled(DataCard)`
-  background: radial-gradient(76.02% 75.41% at 1.84% 0%, #27ae60 0%, #000000 100%);
+  background: rgb(42,170,6);
   overflow: hidden;
 `
 
@@ -195,7 +193,7 @@ export default function Manage({
               {stakingInfo?.totalRewardRate
                 ?.multiply((60 * 60 * 24 * 7).toString())
                 ?.toFixed(0, { groupSeparator: ',' }) ?? '-'}
-              {' TAP / week'}
+              {' DOV / week'}
             </TYPE.body>
           </AutoColumn>
         </PoolData>
@@ -273,7 +271,7 @@ export default function Manage({
             <AutoColumn gap="sm">
               <RowBetween>
                 <div>
-                  <TYPE.black>Your unclaimed TAP</TYPE.black>
+                  <TYPE.black>Your unclaimed DOV</TYPE.black>
                 </div>
                 {stakingInfo?.earnedAmount && JSBI.notEqual(BIG_INT_ZERO, stakingInfo?.earnedAmount?.raw) && (
                   <ButtonPrimary
@@ -305,7 +303,7 @@ export default function Manage({
                   {stakingInfo?.rewardRate
                     ?.multiply((60 * 60 * 24 * 7).toString())
                     ?.toSignificant(4, { groupSeparator: ',' }) ?? '-'}
-                  {' TAP / week'}
+                  {' DOV / week'}
                 </TYPE.black>
               </RowBetween>
             </AutoColumn>
@@ -315,7 +313,7 @@ export default function Manage({
           <span role="img" aria-label="wizard-icon" style={{ marginRight: '8px' }}>
             ⭐️
           </span>
-          When you withdraw, the contract will automatically claim TAP on your behalf!
+          When you withdraw, the contract will automatically claim DOV on your behalf!
         </TYPE.main>
 
         {!showAddLiquidityButton && (

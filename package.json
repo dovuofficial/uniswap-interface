@@ -1,6 +1,6 @@
 {
-  "name": "tap-liquidity-mining-ui",
-  "description": "TAP Liquidity Mining UI",
+  "name": "dov-liquidity-mining-ui",
+  "description": "DOV Liquidity Mining UI",
   "homepage": ".",
   "private": true,
   "devDependencies": {

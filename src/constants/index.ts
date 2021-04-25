@@ -18,23 +18,22 @@ export const COMP = new Token(ChainId.MAINNET, '0xc00e94Cb662C3520282E6f57172140
 export const MKR = new Token(ChainId.MAINNET, '0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2', 18, 'MKR', 'Maker')
 export const AMPL = new Token(ChainId.MAINNET, '0xD46bA6D942050d489DBd938a2C909A5d5039A161', 9, 'AMPL', 'Ampleforth')
 export const WBTC = new Token(ChainId.MAINNET, '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599', 18, 'WBTC', 'Wrapped BTC')
-//export const TAP = new Token(ChainId.MAINNET, '0x7f1f2d3dfa99678675ece1c243d3f7bc3746db5d', 18, 'TAP', 'Tapmydata')
 
 // TODO this is only approximate, it's actually based on blocks
 export const PROPOSAL_LENGTH_IN_DAYS = 7
 
 export const GOVERNANCE_ADDRESS = '0x5e4be8Bc9637f0EAA1A755019e06A68ce081D58F'
 
-const TAP_MAINNET = '0x7f1f2d3dfa99678675ece1c243d3f7bc3746db5d'
-const TAP_KOVAN = '0x942684bDbd2d4897e766F383795cB94D00a0bCeC'
+const DOV_MAINNET = '0xac3211a5025414af2866ff09c23fc18bc97e79b1'
+const DOV_KOVAN = '0x942684bDbd2d4897e766F383795cB94D00a0bCeC'
 export const UNI: { [chainId in ChainId]: Token } = {
-  [ChainId.MAINNET]: new Token(ChainId.MAINNET, TAP_MAINNET, 18, 'TAP', 'Tapmydata'),
-  [ChainId.RINKEBY]: new Token(ChainId.RINKEBY, TAP_MAINNET, 18, 'TAP', 'Tapmydata'),
-  [ChainId.ROPSTEN]: new Token(ChainId.ROPSTEN, TAP_MAINNET, 18, 'TAP', 'Tapmydata'),
-  [ChainId.GÖRLI]: new Token(ChainId.GÖRLI, TAP_MAINNET, 18, 'TAP', 'Tapmydata'),
-  [ChainId.KOVAN]: new Token(ChainId.KOVAN, TAP_KOVAN, 18, 'TAP', 'Tapmydata')
+  [ChainId.MAINNET]: new Token(ChainId.MAINNET, DOV_MAINNET, 18, 'DOV', 'DOVU'),
+  [ChainId.RINKEBY]: new Token(ChainId.RINKEBY, DOV_MAINNET, 18, 'DOV', 'DOVU'),
+  [ChainId.ROPSTEN]: new Token(ChainId.ROPSTEN, DOV_MAINNET, 18, 'DOV', 'DOVU'),
+  [ChainId.GÖRLI]: new Token(ChainId.GÖRLI, DOV_MAINNET, 18, 'DOV', 'DOVU'),
+  [ChainId.KOVAN]: new Token(ChainId.KOVAN, DOV_KOVAN, 18, 'DOV', 'DOVU')
 }
-export const TAP = UNI;
+export const DOV = UNI;
 
 const USDT_MAINNET = '0xdac17f958d2ee523a2206206994597c13d831ec7'
 const USDT_KOVAN = '0x07de306FF27a2B630B1141956844eB1552B956B5'

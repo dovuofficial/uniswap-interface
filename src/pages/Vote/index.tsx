@@ -131,11 +131,11 @@ export default function Vote() {
           <CardSection>
             <AutoColumn gap="md">
               <RowBetween>
-                <TYPE.white fontWeight={600}>Tapmydata Governance</TYPE.white>
+                <TYPE.white fontWeight={600}>DOVU Governance</TYPE.white>
               </RowBetween>
               <RowBetween>
                 <TYPE.white fontSize={14}>
-                  UNI tokens represent voting shares in Tapmydata governance. You can vote on each proposal yourself or
+                  UNI tokens represent voting shares in DOVU governance. You can vote on each proposal yourself or
                   delegate your votes to a third party.
                 </TYPE.white>
               </RowBetween>
@@ -144,7 +144,7 @@ export default function Vote() {
                 href="https://uniswap.org/blog/uni"
                 target="_blank"
               >
-                <TYPE.white fontSize={14}>Read more about Tapmydata governance</TYPE.white>
+                <TYPE.white fontSize={14}>Read more about DOVU governance</TYPE.white>
               </ExternalLink>
             </AutoColumn>
           </CardSection>

@@ -42,7 +42,7 @@ export default function BetterTradeLink({ version }: { version: Version }) {
     <VersionLinkContainer>
       There is a better price for this trade on{' '}
       <StyledInternalLink to={linkDestination}>
-        <b>Tapmydata {version.toUpperCase()} ↗</b>
+        <b>Dovu {version.toUpperCase()} ↗</b>
       </StyledInternalLink>
     </VersionLinkContainer>
   )
@@ -67,7 +67,7 @@ export function DefaultVersionLink() {
     <VersionLinkContainer>
       Showing {version.toUpperCase()} price.{' '}
       <StyledInternalLink to={linkDestination}>
-        <b>Switch to Tapmydata {DEFAULT_VERSION.toUpperCase()} ↗</b>
+        <b>Switch to Dovu {DEFAULT_VERSION.toUpperCase()} ↗</b>
       </StyledInternalLink>
     </VersionLinkContainer>
   )

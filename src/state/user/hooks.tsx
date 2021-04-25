@@ -41,7 +41,7 @@ function deserializeToken(serializedToken: SerializedToken): Token {
 }
 
 export function useIsDarkMode(): boolean {
-  return true
+  return false
 }
 
 export function useDarkModeManager(): [boolean, () => void] {

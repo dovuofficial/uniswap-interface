@@ -10,7 +10,7 @@ import {Countdown} from './Countdown'
 import Loader from '../../components/Loader'
 import {useActiveWeb3React} from '../../hooks'
 import {ChainId, Currency, ETHER, JSBI, Pair, Token, TokenAmount, WETH} from "@uniswap/sdk";
-import {TAP, UNI, USDT, ZERO_ADDRESS} from "../../constants";
+import {DOV, UNI, USDT, ZERO_ADDRESS} from "../../constants";
 import FakePoolCard from "../../components/earn/FakePoolCard";
 import {unwrappedToken} from "../../utils/wrappedCurrency";
 
@@ -76,19 +76,12 @@ export default function Earn() {
 
   const [cardInfos, setCardInfos] = useState([
     {
-      currency0: TAP[ChainId.MAINNET],
+      currency0: DOV[ChainId.MAINNET],
       currency1: ETHER,
       totalDeposited: 'Loading..',
       poolRate: 'Loading..',
       periodFinish: undefined,
       currentAPR: 'Loading..'
-    },
-    {
-      currency0: TAP[ChainId.MAINNET],
-      currency1: USDT[ChainId.MAINNET],
-      totalDeposited: 'Loading..',
-      poolRate: 'Loading..',
-      periodFinish: undefined
     }
   ] as CardInfo[])
 
@@ -97,13 +90,9 @@ export default function Earn() {
       const data = JSON.parse(dataString)
       const newCardInfos = cardInfos.concat()
 
-      newCardInfos[0].totalDeposited = data['TAP-ETH'].totalDeposited.toLocaleString('en', { style: 'currency', currency: 'USD' })  + ' USD'
-      newCardInfos[0].poolRate = Number(data['TAP-ETH'].poolRate).toLocaleString('en') + ' TAP / week'
-      newCardInfos[0].periodFinish = new Date(Number(data['TAP-ETH'].periodFinish * 1000))
-
-      newCardInfos[1].totalDeposited = data['TAP-USDT'].totalDeposited.toLocaleString('en', { style: 'currency', currency: 'USD' })  + ' USD'
-      newCardInfos[1].poolRate = Number(data['TAP-USDT'].poolRate).toLocaleString('en') + ' TAP / week'
-      newCardInfos[1].periodFinish = new Date(Number(data['TAP-USDT'].periodFinish * 1000))
+      newCardInfos[0].totalDeposited = data['DOV-ETH'].totalDeposited.toLocaleString('en', { style: 'currency', currency: 'USD' })  + ' USD'
+      newCardInfos[0].poolRate = Number(data['DOV-ETH'].poolRate).toLocaleString('en') + ' DOV / week'
+      newCardInfos[0].periodFinish = new Date(Number(data['DOV-ETH'].periodFinish * 1000))
 
       setCardInfos(newCardInfos)
     })
@@ -135,19 +124,19 @@ export default function Earn() {
           <CardSection>
             <AutoColumn gap="md">
               <RowBetween>
-                <TYPE.white fontWeight={600}>Tapmydata liquidity mining</TYPE.white>
+                <TYPE.white fontWeight={600}>DOVU liquidity mining</TYPE.white>
               </RowBetween>
               <RowBetween>
                 <TYPE.white fontSize={14}>
-                  Deposit your Liquidity Provider tokens to receive TAP, the Tapmydata token.
+                  Deposit your Liquidity Provider tokens to receive DOV, the DOVU token.
                 </TYPE.white>
               </RowBetween>{' '}
               <ExternalLink
                 style={{ color: 'white', textDecoration: 'underline' }}
-                href="https://www.tapmydata.com/"
+                href="https://www.dovu.io/"
                 target="_blank"
               >
-                <TYPE.white fontSize={14}>Read more about TAP</TYPE.white>
+                <TYPE.white fontSize={14}>Read more about DOV</TYPE.white>
               </ExternalLink>
             </AutoColumn>
           </CardSection>
@@ -164,7 +153,6 @@ export default function Earn() {
           {!account ? ( 
               <>
               <FakePoolCard cardInfo={cardInfos[0]} />
-              <FakePoolCard cardInfo={cardInfos[1]} />
               </>
           ) : (
               (!stakingInfos || stakingInfos.length === 0) ? (
@@ -179,7 +167,7 @@ export default function Earn() {
       </AutoColumn>
 
       <div style={{position: 'fixed', left: '0', bottom: '16px', paddingLeft: '16px', fontSize: '10px', color: '0x888'}}>
-        View source code on <FooterLink href="https://github.com/tapmydata/uniswap-interface" target="_blank">GitHub</FooterLink>. Based on <FooterLink href="https://github.com/Uniswap/uniswap-interface" target="_blank">uniswap-interface</FooterLink>.
+        View source code on <FooterLink href="https://github.com/dovuofficial/uniswap-interface" target="_blank">GitHub</FooterLink>. Based on <FooterLink href="https://github.com/Uniswap/uniswap-interface" target="_blank">uniswap-interface</FooterLink>.
       </div>
     </PageWrapper>
   )

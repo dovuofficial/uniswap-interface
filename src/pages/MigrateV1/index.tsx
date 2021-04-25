@@ -73,12 +73,12 @@ export default function MigrateV1() {
           <BackArrow to="/pool" />
           <TYPE.mediumHeader>Migrate V1 Liquidity</TYPE.mediumHeader>
           <div>
-            <QuestionHelper text="Migrate your liquidity tokens from Tapmydata V1 to Tapmydata V2." />
+            <QuestionHelper text="Migrate your liquidity tokens from DOVU V1 to DOVU V2." />
           </div>
         </AutoRow>
 
         <TYPE.body style={{ marginBottom: 8, fontWeight: 400 }}>
-          For each pool shown below, click migrate to remove your liquidity from Tapmydata V1 and deposit it into Tapmydata
+          For each pool shown below, click migrate to remove your liquidity from DOVU V1 and deposit it into DOVU
           V2.
         </TYPE.body>
 

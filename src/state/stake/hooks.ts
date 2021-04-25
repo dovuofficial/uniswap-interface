@@ -1,6 +1,6 @@
 import { ChainId, CurrencyAmount, JSBI, Token, TokenAmount, WETH, Pair } from '@uniswap/sdk'
 import { useMemo } from 'react'
-import { DAI, TAP, UNI, USDC, USDT, WBTC } from '../../constants'
+import { DAI, DOV, UNI, USDC, USDT, WBTC } from '../../constants'
 import { STAKING_REWARDS_INTERFACE } from '../../constants/abis/staking-rewards'
 import { useActiveWeb3React } from '../../hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData } from '../multicall/hooks'
@@ -19,31 +19,23 @@ export const STAKING_REWARDS_INFO: {
 } = {
   [ChainId.MAINNET]: [
     {
-      tokens: [TAP[ChainId.MAINNET], WETH[ChainId.MAINNET]],
-      stakingRewardAddress: '0x29Da98679d401ED8FC7474D192c04DB3e3c49695'
-    },
-    {
-      tokens: [TAP[ChainId.MAINNET], USDT[ChainId.MAINNET]],
-      stakingRewardAddress: '0x60b07E2432e4cD572C157C121a810BfcA517C79f'
+      tokens: [DOV[ChainId.MAINNET], WETH[ChainId.MAINNET]],
+      stakingRewardAddress: '0x08d97ff3af73da88021a4693e50002cc7856b773'
     }
   ],
   [ChainId.KOVAN]: [
     {
-      tokens: [TAP[ChainId.KOVAN], WETH[ChainId.KOVAN]],
-      stakingRewardAddress: '0xb628bce3bca899a42da91b3b160137a286ce054f'
-    },
-    {
-      tokens: [TAP[ChainId.KOVAN], USDT[ChainId.KOVAN]],
-      stakingRewardAddress: '0x6E65261CE50480CC5455A6eA05169C18fC14eEF8'
+      tokens: [DOV[ChainId.KOVAN], WETH[ChainId.KOVAN]],
+      stakingRewardAddress: '0x67bbb012b95dfb9806bb9236d5804c417bc018d9'
     }
   ]
   // [ChainId.ROPSTEN]: [
   //   {
-  //     tokens: [TAP, WETH[ChainId.ROPSTEN]],
+  //     tokens: [DOV, WETH[ChainId.ROPSTEN]],
   //     stakingRewardAddress: '0x6147e04E4F5c71bf32D1E9cf310eE816F1952363'
   //   },
   //   {
-  //     tokens: [TAP, USDT],
+  //     tokens: [DOV, USDT],
   //     stakingRewardAddress: '0x8d4f51555DA88A549598Fe258dD9208f64992FCD'
   //   }
   // ]

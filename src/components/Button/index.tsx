@@ -111,7 +111,7 @@ export const ButtonGray = styled(Base)`
 
 export const ButtonSecondary = styled(Base)`
   border: 1px solid ${({ theme }) => theme.primary4};
-  color: ${({ theme }) => theme.primary1};
+  color: ${({ theme }) => theme.primary4};
   background-color: transparent;
   font-size: 16px;
   border-radius: 12px;
@@ -122,7 +122,9 @@ export const ButtonSecondary = styled(Base)`
     border: 1px solid ${({ theme }) => theme.primary3};
   }
   &:hover {
-    border: 1px solid ${({ theme }) => theme.primary3};
+    border: 1px solid ${({ theme }) => theme.primary4};
+    background-color: ${({ theme }) => theme.primary4};
+    color: #fff;
   }
   &:active {
     box-shadow: 0 0 0 1pt ${({ theme }) => theme.primary4};
