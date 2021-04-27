@@ -137,7 +137,7 @@ export default function ClaimModal() {
           <AutoColumn gap="md" style={{ padding: '1rem', paddingTop: '0' }} justify="center">
             <TYPE.subHeader fontWeight={500}>
               As a member of the Dovu community you may claim DOV to be used for voting and governance. <br /> <br />
-              <ExternalLink href="https://dovu.io">Read more about DOV</ExternalLink>
+              <ExternalLink href="https://dovu.earth">Read more about DOV</ExternalLink>
             </TYPE.subHeader>
             <ButtonPrimary
               disabled={!isAddress(account ?? '')}

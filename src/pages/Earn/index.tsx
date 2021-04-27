@@ -35,7 +35,7 @@ const PoolSection = styled.div`
 
 const FooterLink = styled.a`
   color: #888;
-  
+
   :hover, :focus, :active {
     color: #888;
   }
@@ -120,20 +120,19 @@ export default function Earn() {
     <PageWrapper gap="lg" justify="center">
       <TopSection gap="md">
         <DataCard>
-
           <CardSection>
             <AutoColumn gap="md">
               <RowBetween>
-                <TYPE.white fontWeight={600}>DOVU liquidity mining</TYPE.white>
+                <TYPE.white fontWeight={600}>Grow your crypto offset</TYPE.white>
               </RowBetween>
               <RowBetween>
                 <TYPE.white fontSize={14}>
-                  Deposit your Liquidity Provider tokens to receive DOV, the DOVU token.
+                  Farm your carbon output by providing liquidity to receive DOV, the DOVU token.
                 </TYPE.white>
               </RowBetween>{' '}
               <ExternalLink
                 style={{ color: 'white', textDecoration: 'underline' }}
-                href="https://www.dovu.io/"
+                href="https://www.dovu.earth"
                 target="_blank"
               >
                 <TYPE.white fontSize={14}>Read more about DOV</TYPE.white>
@@ -150,7 +149,7 @@ export default function Earn() {
           <Countdown exactEnd={cardInfos?.[0]?.periodFinish || stakingInfos?.[0]?.periodFinish} />
         </DataRow>
         <PoolSection>
-          {!account ? ( 
+          {!account ? (
               <>
               <FakePoolCard cardInfo={cardInfos[0]} />
               </>
