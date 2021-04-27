@@ -35,7 +35,7 @@ const Wrapper = styled(AutoColumn)<{ showBackground: boolean; bgColor: any }>`
   width: 100%;
   overflow: hidden;
   position: relative;
-  background-color: #2aaa06;
+  background-color: #4d5056;
   color: ${({ theme, showBackground }) => (showBackground ? theme.white : theme.text1)} !important;
 
   ${({ showBackground }) =>

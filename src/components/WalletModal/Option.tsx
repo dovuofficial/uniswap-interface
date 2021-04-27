@@ -6,7 +6,7 @@ const InfoCard = styled.button<{ active?: boolean }>`
   background-color: ${({ theme, active }) => (active ? theme.bg3 : theme.bg2)};
   padding: 1rem;
   outline: none;
-  border: 1px solid #2aaa06;
+  border: 1px solid #4d5056;
   border-radius: 12px;
   width: 100% !important;
   &:focus {
