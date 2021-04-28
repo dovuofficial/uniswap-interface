@@ -8,6 +8,7 @@ import styled, {
 } from 'styled-components'
 import { useIsDarkMode } from '../state/user/hooks'
 import { Text, TextProps } from 'rebass'
+import BrauerNeue from '../fonts/BrNStd.otf';
 import { Colors } from './styled'
 
 export * from './components'
@@ -176,13 +177,19 @@ export const TYPE = {
 }
 
 export const FixedGlobalStyle = createGlobalStyle`
+@font-face {
+    font-family: 'Brauer Neue';
+    src: url(${BrauerNeue}) format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
 html, input, textarea, button {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Brauer Neue','Inter', sans-serif;
   font-display: fallback;
 }
 @supports (font-variation-settings: normal) {
   html, input, textarea, button {
-    font-family: 'Inter var', sans-serif;
+    font-family: 'Brauer Neue','Inter var', sans-serif;
   }
 }
 
@@ -207,7 +214,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-feature-settings: 'ss01' on, 'ss02' on, 'cv01' on, 'cv03' on;
-  
+
 }
 `
 
