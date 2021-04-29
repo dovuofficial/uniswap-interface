@@ -23,7 +23,7 @@ const ContentWrapper = styled(AutoColumn)`
 
 const ModalUpper = styled(DataCard)`
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  background-color: #d7395c;
+  background: ${({ theme }) => theme.primary1};
   padding: 0.5rem;
 `
 

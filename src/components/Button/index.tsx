@@ -119,7 +119,6 @@ export const ButtonSecondary = styled(Base)`
 
   &:focus {
     box-shadow: 0 0 0 1pt ${({ theme }) => theme.primary4};
-    border: 1px solid ${({ theme }) => theme.primary3};
   }
   &:hover {
     border: 1px solid ${({ theme }) => theme.primary4};
