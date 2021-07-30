@@ -99,7 +99,7 @@ export default function FakePoolCard({ cardInfo }: { cardInfo: CardInfo }) {
         </RowBetween>
         <RowBetween>
           <TYPE.white> Liquidity provider reward rate </TYPE.white>
-          <TYPE.white>{cardInfo.poolRate}</TYPE.white>
+          <TYPE.white>Zero - Pool Ended</TYPE.white>
         </RowBetween>
       </StatContainer>
     </Wrapper>
