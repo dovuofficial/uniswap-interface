@@ -6,9 +6,9 @@ import { useActiveWeb3React } from '../../hooks'
 import { NEVER_RELOAD, useMultipleContractSingleData } from '../multicall/hooks'
 import { tryParseAmount } from '../swap/hooks'
 
-export const STAKING_GENESIS = 1627603200
+export const STAKING_GENESIS = 1635379200
 
-export const REWARDS_DURATION_DAYS = 90
+export const REWARDS_DURATION_DAYS = 180
 
 // TODO add staking rewards addresses here
 export const STAKING_REWARDS_INFO: {
