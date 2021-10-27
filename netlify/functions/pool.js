@@ -22,7 +22,7 @@ exports.handler = async function(event, context) {
             { 
                 "DOV-ETH": {
                     totalDeposited: Number(pair.pairs[0].reserveUSD),
-                    poolRate: "466667",
+                    poolRate: "116666",
                     periodFinish: 1635379200 + 15552000
                 }
              }
