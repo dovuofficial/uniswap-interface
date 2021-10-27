@@ -127,15 +127,15 @@ export default function Earn() {
               </RowBetween>
               <RowBetween>
                 <TYPE.white fontSize={14}>
-                  This liquidity reward pool has ended. Please unstake your UNI-v2 tokens from this pool and join our new pool at liquidity-v2.dovu.earth
+                  This liquidity reward pool has ended. Please unstake your UNI-v2 tokens from this pool and join our new pool at liquidity-v3.dovu.earth
                 </TYPE.white>
               </RowBetween>{' '}
               <ExternalLink
                 style={{ color: 'white', textDecoration: 'underline' }}
-                href="https://liquidity-v2.dovu.earth"
+                href="https://liquidity-v3.dovu.earth"
                 target="_blank"
               >
-                <TYPE.white fontSize={14}>Go to the new pool at liquidity-v2.dovu.earth</TYPE.white>
+                <TYPE.white fontSize={14}>Go to the new pool at liquidity-v3.dovu.earth</TYPE.white>
               </ExternalLink>
             </AutoColumn>
           </CardSection>
